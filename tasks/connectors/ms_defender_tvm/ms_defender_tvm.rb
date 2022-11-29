@@ -109,14 +109,9 @@ module Kenna
         vuln_next_link = nil
 
         # now get the vulns
+        tvm_get_vulns_files
+        
         while morevuln
-
-          # print_debug vuln_json
-          vuln_json_response = if vuln_next_link.nil?
-                                 tvm_get_vulns
-                               else
-                                 tvm_get_vulns(vuln_next_link)
-                               end
 
           vuln_json = vuln_json_response["value"]
 
