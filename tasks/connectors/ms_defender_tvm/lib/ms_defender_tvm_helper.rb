@@ -13,20 +13,16 @@ module Kenna
       @file_cleanup = nil
       @batch_page_size = nil
       @tvm_page_size = nil
-
-      def tvm_get_machines(page_param = nil)
-        print_debug "Getting machines"
+      
+      def tvm_get_vulns_files()
+        print_debug "Getting vulns files from MS"
         tvm_get_auth_token if @token.nil?
 
-        url = if page_param.nil?
-                "#{@tvm_query_api}/api/v1.0/machines?$orderby=id"
-              # url = "#{url}&#{page_param}" if !page_param.nil?
-              else
-                page_param
-              end
+        url = "#{@tvm_query_api}/api/machines/SoftwareVulnerabilitiesExport"
+        
         print_debug "url = #{url}"
         begin
-          headers = { "Content-Type" => "application/json", "Accept" => "application/json", "Authorization" => "Bearer #{@token}", "accept-encoding" => "identity" }
+          headers = { "content-type" => "application/json", "accept" => "application/json", "Authorization" => "Bearer #{@token}", "accept-encoding" => "identity" }
           response = http_get(url, headers, 1)
           if !response.code == 200
             response = nil
@@ -46,6 +42,7 @@ module Kenna
 
         json
       end
+
 
       def tvm_get_vulns(page_param = nil)
         print_debug "Getting vulns"
